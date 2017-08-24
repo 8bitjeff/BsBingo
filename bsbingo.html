@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<title>BS Bingo</title>
+<script src="modernizr-min.js"></script>
+<script src="TextButton.js"></script>
+<script src="ConsoleLog.js"></script>
+<script type="text/javascript">
+
+
+window.addEventListener('load', eventWindowLoaded, false);	
+function eventWindowLoaded() {
+
+	canvasApp();
+	
+}
+
+function canvasSupport () {
+  	return Modernizr.canvas;
+}
+
+
+function canvasApp(){
+
+	if (!canvasSupport()) {
+			 return;
+  	}else{
+		theCanvas = document.getElementById('canvas');
+	    context = theCanvas.getContext('2d');
+	}
+	
+	var bingoCard=[];
+	var buttons=[];
+	var standardJargonList=[];
+	var tempButton={};
+	var clickSound;
+	
+	function initLists(){
+		
+		standardJargonList=[
+			    "24x7","20/20 \nindsight","Above \nthe Fold","Actionable", "Adverteasing", "Advertorial", "Adver-game","Agile", "Assessment" , "Automagically", "At the/nend/nof/nthe day", "Baked-In", "Bandwidth", "Balanced\nScorecard", "Benchmark", "Best\nPractices", "Blue Sky", "Bottle\nneck" , "Brain\nDump", "Brandactional", "Brogrammer", "Bring to \nthe Table", "Buy-In","Cascade", "Catalyst", "Change\nManagement", "Change\nAgent","Circle\nthe Wagons", "Close\nof Business", "Close\nthe Loop", "Coach",
+			    "Code\nMonkey","Come\nto Jesus", "Competitive\nAdvantage", "Componentize", "Consumer\nFacing", "Constraints", "Core\nCompetencies", "Core values", "Cradle\nto grave", "Critical\nthinking", "Crowdsource", "Cutting\nedge",  "Champion", "Circle Back", 
+			    "Dashboard", "Data\ndriven", "Deliverables", "Dialogue", "Disincentivize", "Dog's\nBreakfast","Dog and\nPony Show", "Drill\nDown", "Drink the\nKool-Aid","Dynamic", "Drop\nthe Ball", "Due\nDiligence","Dialogue", "Emerge", "Enhance", "Evolve", "Execute", "Eat your own/ndogfood", "Edutainment", "Efforting", "Elevator\nSpeech","Elevator\nPitch", "Empower", "Enterprise\nWide", "End/Close\nof Play","Enterprise","Fast Track", "Face Time", "Facilitate","Fire Drill","Freemium","Game Plan","Gamification", "Gatekeeper", "Game\nChanger", "Get Down\nin the Weeds", "Globalization","Guesstimate", "Guru", "Individual\nContributor",  "In the\nLoop","Ignite", "Hard Stop", "Heavy\nLifting", "Helicopter\nView", "Herding\nCats", "Holistic", "Home\nRun", "Human\nCapital", "Ideation", "In-flight", "Incentivise", "Initiative", "Innovate", "It Is\n What It Is", "Jazz It Up", "Key Performance\nIndicator", "Kick the Tires", "Killing\nIt", "Knowledge\nTransfer", "Leapfrog", "Learnings","Legacy", "Level\nof Effort","Level\nSet", "Level the\nPlaying field","Life-Time\nValue","Localization", "Loop Back" ,"Leverage", "Leadership", "Low\nHanging\nFruit", "Living\n Document","Matrix\norganisation", "Magic\nQuadrant",
+			      "Mindset","Metrics", "Milestones", "Mindshare",  "Mission-critical", "Momentum", "Moving\ntarget", "Nailing It", "Net-net", "New Breed", "Next Steps", "Off-Shoring", "Off\nthen\nReservation", "On the \nBeach", "Open Door\nPolicy", "On the\nSame Page", "Open\nthe Kimono","Outsourcing","Outside\nthe\nBox", "Opportunity", "Out of\nthe Loop","Out of\nthe Box","Paradigm\nShift","Partnership","Partner", "Parking\nLot This", "Player", "Ping\n(Someone)","Pivot", "Point\nPerson", "Post\nMortem", "Powwow","Process", "Process\nmanagement","Proactive","Pull the\nTrigger", "Push-Pull\nStrategy", "Punch\nUp","Pushback", "Push the\nEnvelope", "Quick Win", "Quick and \ndirty", "Risk\nReward","Reactive","Ramp up", "Red Flag", "Refudiate", "Reinvent\nthe Wheel", "Reach\nOut To","Re-engineer","Retool", "Requirements", "Rightsize", "ROI", "Rightsize", "Roadmap", "Rockstar", "Run It Up\nthe Flagpole", "Tent pole",  "Touch Base", "Silo", "Silver\nBullet", "Single Point\nof Contact","Standards",
+			     "Sanity\nCheck", "Seat at\nthe table", "Secret\nSauce", "SEO", "Shoehorn", "Show\nstopper", "Social\nGraph", "Social\nMedia","Soft Launch","State of the art", "Supply chain", "Synergy", "Synergize","Solutioneering", "Soup-to-Nuts","Stakeholder", "Stop-Gap",  "Spearhead", "Strategize","Synergise", "Straw Man", "Subject Matter\nExpert", "Suboptimal", "Sunset", "Superhero",  "Throw\na\nCurve", "Touch Base",  "10,000\nFoot View", "Table This", "Take It\nOffline", "Take Away","Task-Oriented", "Team\nPlayer","Take\nOwnership", "Teamwork", "Thought\nleader",  "Touch\npoints", "Touch\nBase", "Traction","Tweet Jam", "Upset the\nApple Cart",  "Up Sell" , "Upstream", "Value\nadded", "Value\nProposition", "Verbiage", "Viral", "Vis-à-vis", "Visioning", "Walled Garden", "War Room", "Web 3.0", "Webinar", "Webisode","Win-Win","Waterfall", "Wheelhouse", "White Paper", "Wizard", "Wordsmith", "Wow\nFactor", 
+			  
+			      ];
+	
+	}
+	
+	
+	function initButtons(){	
+		buttons=[
+			[
+			 new TextButton(0,0,"Button 0,0",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(92,0,"Button 0,1",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(184,0,"Button 0,2",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(276,0,"Button 0,3",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(368,0,"Button 0,4",85,50,gr,"#000000","#ffff00","#000000")
+			],
+			[
+			 new TextButton(0,57,"Button 1,0",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(92,57,"Button 1,1",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(184,57,"Button 1,2",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(276,57,"Button 1,3",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(368,57,"Button 1,4",85,50,gr,"#000000","#ffff00","#000000")
+			],
+			[
+			 new TextButton(0,114,"Button 2,0",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(92,114,"Button 2,1",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(184,114,"Button 2,2",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(276,114,"Button 2,3",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(368,114,"Button 2,4",85,50,gr,"#000000","#ffff00","#000000")
+			],
+			[
+			 new TextButton(0,171,"Button 3,0",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(92,171,"Button 3,1",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(184,171,"Button 3,2",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(276,171,"Button 3,3",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(368,171,"Button 3,4",85,50,gr,"#000000","#ffff00","#000000")
+			],
+			[
+			 new TextButton(0,228,"Button 4,0",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(92,228,"Button 4,1",85,50,gr,"#000000","#ffff00","#000000"), 
+			 new TextButton(184,228,"Button 4,2",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(276,228,"Button 4,3",85,50,gr,"#000000","#ffff00","#000000"),
+			 new TextButton(368,228,"Button 4,4",85,50,gr,"#000000","#ffff00","#000000")
+			]
+
+			
+		];
+	}
+
+	function initSounds(){
+		clickSound=document.getElementById('clicksound');
+	}
+	
+	function chooseButtonsForCard(){
+		//copy jargon into temp array
+		var tempArray=[];
+		for (var arrayctr=0;arrayctr<standardJargonList.length;arrayctr++){
+			tempArray.push(standardJargonList[arrayctr]);
+		}
+		
+		for (var ctr1=0;ctr1<buttons.length;ctr1++){
+			
+			for (var ctr2=0; ctr2<buttons[ctr1].length;ctr2++){
+				var randInt=Math.floor(Math.random()*tempArray.length);
+				buttons[ctr1][ctr2].text=tempArray[randInt];
+				tempArray.splice(randInt,1)
+			}
+		}
+		
+	}
+	
+
+
+	function drawScreen() {
+		
+		for (var ctr1=0;ctr1<buttons.length;ctr1++){
+		
+			for (var ctr2=0; ctr2<buttons[ctr1].length;ctr2++){
+				
+				buttons[ctr1][ctr2].draw(context);
+			}
+		}
+		
+
+	}
+	
+	
+    
+	function onMouseClick(e) {
+    
+		//select case through states and then the locations of buttons in those states
+		mouseX=e.clientX-theCanvas.offsetLeft;
+		mouseY=e.clientY-theCanvas.offsetTop;
+	
+		//find the button clicked
+		
+		var col = Math.floor(mouseX/92);
+		var row = Math.floor(mouseY/57);
+		
+		console.log("row",row,"col", col);
+		tempButton=buttons[row][col];
+		clickSound.play();
+		tempButton.pressDown();
+		tempButton.draw(context);
+		
+		
+	}
+    
+	function onMouseMove(e) {
+		mouseX=e.clientX-theCanvas.offsetLeft;
+		mouseY=e.clientY-theCanvas.offsetTop;
+	
+	       
+	}
+	
+	 //**** start application
+	var gr = context.createLinearGradient(0, 0, 85, 50);
+		
+	// Add the color stops.
+	gr.addColorStop(0,'#ffffff');
+        gr.addColorStop(.5,'#bbbbbb');
+	gr.addColorStop(1,'#777777');
+	
+	theCanvas.addEventListener("mousemove", onMouseMove, false);
+	theCanvas.addEventListener("click", onMouseClick, false);
+	initSounds();
+	initButtons();
+	initLists();
+	chooseButtonsForCard();
+	drawScreen();	
+	
+
+}
+
+
+</script> 
+</head>
+<body>
+<div style="position: absolute; top: 0px; left: 0px;">
+<canvas id="canvas" width="570" height="418">
+ Your browser does not support the HTML 5 Canvas. 
+</canvas>
+<audio id ="clicksound"  preload="auto">
+	<source src="click.mp3" type="audio/mpeg" />
+	
+	
+Your browser does not support the audio element.
+</audio>
+</div>
+
+
+
+</body>
+</html>
